@@ -1,9 +1,6 @@
 # Germán Andrés Xander 2024
 
-from machine import Pin
-import dht
-
-d = dht.DHT22(Pin(15))
+d = dht.DHT11(machine.Pin(13))
 d.measure()
 temperatura=d.temperature()
 print(f"\nla temperatura actual es de {temperatura} C")
