@@ -16,6 +16,7 @@
 from mqtt_as import MQTTClient
 from mqtt_local import config
 import uasyncio as asyncio
+from settings import TOPICO
 
 SERVER = config['server']
 
@@ -38,7 +39,7 @@ async def main(client):
     while True:
         print('publish', n)
         # If WiFi is down the following will pause for the duration.
-        await client.publish('result', '{} {}'.format(n, client.REPUB_COUNT), qos = 1)
+        await client.publish(TOPICO, '{} {}'.format(n, client.REPUB_COUNT), qos = 1)
         n += 1
         await asyncio.sleep(10)  # Broker is slow
 
