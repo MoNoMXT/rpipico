@@ -19,9 +19,23 @@ import uasyncio as asyncio
 import dht, machine
 
 d = dht.DHT11(machine.Pin(15))
+rele = machine.Pin(2, machine.Pin.OUT)  # ejemplo GPIO2
+rele.value(0)  # arranca apagado
 
 def sub_cb(topic, msg, retained):
     print('Topic = {} -> Valor = {}'.format(topic.decode(), msg.decode()))
+    t = topic.decode()
+    m = msg.decode()
+    
+    print('Topic = {} -> Valor = {}'.format(t, m))
+
+    if t == 'result_iot/rele':
+        if m == '1':
+            rele.value(1)
+            print("Relé ENCENDIDO")
+        elif m == '0':
+            rele.value(0)
+            print("Relé APAGADO")
 
 async def wifi_han(state):
     print('Wifi is ', 'up' if state else 'down')
@@ -31,6 +45,7 @@ async def wifi_han(state):
 async def conn_han(client):
     await client.subscribe('result_iot/temperatura', 1)
     await client.subscribe('result_iot/humedad', 1)
+    await client.subscribe('result_iot/rele', 1) 
 
 async def main(client):
     await client.connect()
