@@ -45,7 +45,7 @@ async def main(client):
                 ('temperatura',temperatura),
                 ('humedad',humedad)
             ]))
-            await client.publish('iot/2024/' + config['client_id'].decode('utf-8'), datos, qos = 1)
+            await client.publish('iotunam/2026/' + config['client_id'].decode('utf-8'), datos, qos = 1)
         except OSError as e:
             print("sin sensor")
         await asyncio.sleep(30)  # Broker is slow
